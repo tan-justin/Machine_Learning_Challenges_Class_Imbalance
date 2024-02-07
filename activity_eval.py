@@ -142,23 +142,85 @@ class ActivityEval:
     def methodD(self): #groupwise 10 fold cross validation groupkfold()
         y = self.y_label.copy()
         x = self.x_label.copy()
-        if self.person_label:
+        if self.person_label is not None:
             person_label = self.person_label.copy()
-        pass
-
+        gkf = GroupKFold(n_splits = 10)
+        methods = ['decision tree','random forest','k neighbors','MLP']
+        avg_accuracy = {}
+        for method in methods:
+            avg_accuracy[method] = 0
+        for train_index, test_index in gkf.split(x, y, person_label):
+            x_train, x_test = x.iloc[train_index], x.iloc[test_index]
+            y_train, y_test = y[train_index], y[test_index]
+            for method in methods:
+                if method == 'decision tree':
+                    decision_tree = DecisionTreeClassifier(random_state = 0)
+                    decision_tree.fit(x_train, y_train)
+                    y_pred_dt = decision_tree.predict(x_test)
+                    avg_accuracy[method] += accuracy_score(y_test, y_pred_dt)
+                if method == 'random forest':
+                    random_forest = RandomForestClassifier(random_state = 0)
+                    random_forest.fit(x_train, y_train)
+                    y_pred_rf = random_forest.predict(x_test)
+                    avg_accuracy[method] += accuracy_score(y_test, y_pred_rf)
+                if method == 'k neighbors':
+                    k_neighbors = KNeighborsClassifier()
+                    k_neighbors.fit(x_train, y_train)
+                    y_pred_kn = k_neighbors.predict(x_test)
+                    avg_accuracy[method] += accuracy_score(y_test, y_pred_kn)
+                if method == 'MLP':
+                    mlp = MLPClassifier(hidden_layer_sizes=(100, ), max_iter=1000, random_state = 0)
+                    mlp.fit(x_train, y_train)
+                    y_pred_mlp = mlp.predict(x_test)
+                    avg_accuracy[method] += accuracy_score(y_test, y_pred_mlp)
+        for method in avg_accuracy:
+            avg_accuracy[method] /= 10
+        self.method_accuracy['D'] = avg_accuracy
+        
     def methodE(self): #class stratified, groupwise 10 fold cross validation stratifiedgroupkfold(shuffle = true)
         y = self.y_label.copy()
         x = self.x_label.copy()
-        if self.person_label:
+        if self.person_label is not None:
             person_label = self.person_label.copy()
-        pass
+        sgkf = StratifiedGroupKFold(n_splits = 10, shuffle = True, random_state = 0)
+        methods = ['decision tree','random forest','k neighbors','MLP']
+        avg_accuracy = {}
+        for method in methods:
+            avg_accuracy[method] = 0
+        for train_index, test_index in sgkf.split(x, y, person_label):
+            x_train, x_test = x.iloc[train_index], x.iloc[test_index]
+            y_train, y_test = y[train_index], y[test_index]
+            for method in methods:
+                if method == 'decision tree':
+                    decision_tree = DecisionTreeClassifier(random_state = 0)
+                    decision_tree.fit(x_train, y_train)
+                    y_pred_dt = decision_tree.predict(x_test)
+                    avg_accuracy[method] += accuracy_score(y_test, y_pred_dt)
+                if method == 'random forest':
+                    random_forest = RandomForestClassifier(random_state = 0)
+                    random_forest.fit(x_train, y_train)
+                    y_pred_rf = random_forest.predict(x_test)
+                    avg_accuracy[method] += accuracy_score(y_test, y_pred_rf)
+                if method == 'k neighbors':
+                    k_neighbors = KNeighborsClassifier()
+                    k_neighbors.fit(x_train, y_train)
+                    y_pred_kn = k_neighbors.predict(x_test)
+                    avg_accuracy[method] += accuracy_score(y_test, y_pred_kn)
+                if method == 'MLP':
+                    mlp = MLPClassifier(hidden_layer_sizes=(100, ), max_iter=1000, random_state = 0)
+                    mlp.fit(x_train, y_train)
+                    y_pred_mlp = mlp.predict(x_test)
+                    avg_accuracy[method] += accuracy_score(y_test, y_pred_mlp)
+        for method in avg_accuracy:
+            avg_accuracy[method] /= 10
+        self.method_accuracy['E'] = avg_accuracy
     
     def methodology(self):
         self.methodA()
         self.methodB()
         self.methodC()
-        #self.methodD()
-        #self.methodE()
+        self.methodD()
+        self.methodE()
         print(self.method_accuracy)
         
 
