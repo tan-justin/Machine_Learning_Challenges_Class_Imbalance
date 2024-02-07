@@ -31,13 +31,44 @@ class ActivityEval:
         x = self.x_label.copy()
         if self.person_label:
             person_label = self.person_label.copy()
-        pass
+        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 0)
+
+        decision_tree = DecisionTreeClassifier()
+        decision_tree.fit(x_train, y_train)
+        y_pred_dt = decision_tree.predict(x_test)
+        decision_tree_accuracy = accuracy_score(y_test, y_pred_dt)
+
+        random_forest = RandomForestClassifier(random_state = 0)
+        random_forest.fit(x_train, y_train)
+        y_pred_rf = random_forest.predict(x_test)
+        random_forest_accuracy = accuracy_score(y_test, y_pred_rf)
+
+        k_neighbors = KNeighborsClassifier()
+        k_neighbors.fit(x_train, y_train)
+        y_pred_kn = k_neighbors.predict(x_test)
+        k_neighbors_accuracy = accuracy_score(y_test, y_pred_kn)
+
+        mlp = MLPClassifier(hidden_layer_sizes=(100, ), max_iter=1000)
+        mlp.fit(x_train, y_train)
+        y_pred_mlp = mlp.predict(x_test)
+        mlp_accuracy = accuracy_score(y_test, y_pred_mlp)
+
+        accuracy = {}
+        accuracy['decision tree'] = decision_tree_accuracy
+        accuracy['random forest'] = random_forest_accuracy
+        accuracy['k neighbors'] = k_neighbors_accuracy
+        accuracy['MLP'] = mlp_accuracy
 
     def methodB(self): #10 fold cross validation kfold(shuffle = true)
         y = self.y_label.copy()
         x = self.x_label.copy()
         if self.person_label:
             person_label = self.person_label.copy()
+
+        kf = KFold(n_splits = 10, shuffle = True, random_state = 0)
+        for train_index, test_index in kf.split(x):
+            x_train, x_test = x[train_index], x[test_index]
+            y_train, y_test = y[train_index], y[test_index]
         pass
 
     def methodC(self): #class stratified cross validation stratifiedkfold(shuffle = True)
@@ -62,13 +93,11 @@ class ActivityEval:
         pass
     
     def methodology(self):
-        
         self.methodA()
         self.methodB()
         self.methodC()
         self.methodD()
         self.methodE()
-
         print(self.method_accuracy)
         
 
