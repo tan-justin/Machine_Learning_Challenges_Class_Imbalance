@@ -1,6 +1,25 @@
+'''
+Name: Justin Tan
+Assignment: Give your models a grade
+Date: Feb 10 2024
+File: main.py
+'''
+
 import pandas as pd
 from generate_profile import GenerateProfile
 from activity_eval import ActivityEval
+
+'''
+Type: Function
+Name: read_csv_data
+Purpose: Convert a csv file into a Pandas Dataframe
+Parameters: csv file path (string)
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: main
+Purpose: Driver code to run the program
+Parameters: None
+'''
 
 def read_csv_data(file_path):
     return pd.read_csv(file_path)

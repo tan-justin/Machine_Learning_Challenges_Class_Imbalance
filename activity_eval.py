@@ -1,3 +1,10 @@
+'''
+Name: Justin Tan
+Assignment: Give your models a grade
+Date: Feb 10 2024
+File: activity_eval.py
+'''
+
 import pandas as pd
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
@@ -12,6 +19,63 @@ from sklearn.model_selection import StratifiedGroupKFold #method E
 from sklearn.dummy import DummyClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+
+'''
+Type: Class
+Name: ActivityEval
+Purpose: Contain the class methods for evaluating the models and table generation
+Parameters: None
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: __init__
+Purpose: Initialize the self variables, prepare the data for training/testing purposes
+Parameters: Training data (Pandas Dataframe), Testing data (Pandas Dataframe)
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: methodA
+Purpose: Perform train-test split on the training data, evaluate the 4 classifiers on this train-test set and store the accuracies
+Parameters: None
+Output: None
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: methodB
+Purpose: Perform cross validation split on train data, evaluate the 4 classifiers on each cross validation fold and store accuracies
+Parameters: None
+Output: None
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: methodC
+Purpose: Perform stratified cross validation split on train data, evaluate the 4 classifiers on each fold and store average accuracies
+Parameters: None
+Output: None
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: methodD
+Purpose: Perform groupwise cross validation split on train data, evaluate the 4 classifiers on each fold and store average accuracies
+Parameters: None
+Output: None
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: methodE
+Purpose: Perform stratified, groupwise cross validation split on train data, evaluate the 4 classifiers on each fold-group and store
+         average accuracies
+Parameters: None
+Output: None
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: final_method
+Purpose: Train the 4 models + dummy classifier on the train set and evaluate with the test set. Determine the classifier with the
+         highest accuracy and obtain the confusion matrix for it
+Parameters: None
+Output: None
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: methodology
+Purpose: Driver code to activate the method functions. Responsible for creating the tables and printing the confusion matrix
+Parameters: None
+Output: 3 tables (train-test method accuracies, actual accuracy, signed error) and a confusion matrix for the classifier with
+        the highest accuracy
+'''
 
 class ActivityEval:
 

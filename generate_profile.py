@@ -1,9 +1,47 @@
+'''
+Name: Justin Tan
+Assignment: Give your models a grade
+Date: Feb 10 2024
+File: generate_profile.py
+'''
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from io import BytesIO
+
+'''
+Type: Class
+Name: GenerateProfile
+Purpose: Class to contain methods for generating a data profile
+Parameters: training data (Pandas Dataframe)
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: prep_data
+Purpose: Generate a dictionary that contains the statistics of each feature in the X set
+Parameters: None
+Output: A dictionary of stats that can be of type Int, float, etc.
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: generate_histogram
+Purpose: Generate a histogram of each feature in the x set
+Parameters: Number of bins, file output path
+Output: Histograms of each feature (.png)
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: generate_pdf
+Purpose: Generate a pdf where each page in the pdf corresponds to a feature in the X set and the Y set. Each page contains information
+         on the feature such as statistics and a histogram
+Parameters: file output path
+Output: pdf file
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: generate_pie_chart
+Purpose: Generate a pie chart for the class label so that we can see the class distribution
+Parameters: file output path
+Output: Pie chart of class label distribution (.png)
+'''
 
 class GenerateProfile:
 
