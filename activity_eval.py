@@ -11,6 +11,7 @@ from sklearn.model_selection import GroupKFold #method D
 from sklearn.model_selection import StratifiedGroupKFold #method E
 from sklearn.dummy import DummyClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
 
 class ActivityEval:
 
@@ -37,6 +38,8 @@ class ActivityEval:
         self.method_accuracy = {}
         self.actual_accuracy = {}
         self.test = test
+        self.confusion = None
+        self.best = None
 
     def methodA(self): #80-20 train test split 
         y = self.y_label.copy()
@@ -235,37 +238,57 @@ class ActivityEval:
         if self.person_test is not None:
             person_test = self.person_test.copy()
         classifiers = ['decision tree','random forest','3 nn','MLP', 'dummy']
-        avg_accuracy = {}
+        accuracy = {}
+        y_pred_dt, y_pred_rf, y_pred_kn, y_pred_mlp, y_pred_dummy = None, None, None, None, None
         for classifier in classifiers:
-            avg_accuracy[classifier] = 0
+            accuracy[classifier] = 0
         for classifier in classifiers:
             if classifier == 'decision tree':
                 decision_tree = DecisionTreeClassifier(random_state = 0)
                 decision_tree.fit(x_train, y_train)
                 y_pred_dt = decision_tree.predict(x_test)
-                avg_accuracy[classifier] += accuracy_score(y_test, y_pred_dt)
+                accuracy[classifier] += accuracy_score(y_test, y_pred_dt)
             if classifier == 'random forest':
                 random_forest = RandomForestClassifier(random_state = 0)
                 random_forest.fit(x_train, y_train)
                 y_pred_rf = random_forest.predict(x_test)
-                avg_accuracy[classifier] += accuracy_score(y_test, y_pred_rf)
+                accuracy[classifier] += accuracy_score(y_test, y_pred_rf)
             if classifier == '3 nn':
                 k_neighbors = KNeighborsClassifier(n_neighbors = 3)
                 k_neighbors.fit(x_train, y_train)
                 y_pred_kn = k_neighbors.predict(x_test)
-                avg_accuracy[classifier] += accuracy_score(y_test, y_pred_kn)
+                accuracy[classifier] += accuracy_score(y_test, y_pred_kn)
             if classifier == 'MLP':
                 mlp = MLPClassifier(hidden_layer_sizes=(100, ), max_iter=1000, random_state = 0)
                 mlp.fit(x_train, y_train)
                 y_pred_mlp = mlp.predict(x_test)
-                avg_accuracy[classifier] += accuracy_score(y_test, y_pred_mlp)
+                accuracy[classifier] += accuracy_score(y_test, y_pred_mlp)
             if classifier == 'dummy':
                 dummy = DummyClassifier(strategy = 'stratified')
                 dummy.fit(x_train, y_train)
                 y_pred_dummy = dummy.predict(x_test)
-                avg_accuracy[classifier] += accuracy_score(y_test, y_pred_dummy)
+                accuracy[classifier] += accuracy_score(y_test, y_pred_dummy)
+        acc = 0
+        best = None
+        for item, value in accuracy.items():
+            if value > acc:
+                acc = value
+                best = item
+        self.best = best
+        if best == 'decision tree':
+            self.confusion = confusion_matrix(y_test, y_pred_dt)
+        elif best == 'random forest':
+            self.confusion = confusion_matrix(y_test, y_pred_rf)
+        elif best == '3 nn':
+            self.confusion = confusion_matrix(y_test, y_pred_kn)
+        elif best == 'MLP':
+            self.confusion = confusion_matrix(y_test, y_pred_mlp)
+        elif best == 'dummy':
+            self.confusion = confusion_matrix(y_test, y_pred_dummy)
+        else:
+            self.confusion = None
 
-        self.actual_accuracy = avg_accuracy
+        self.actual_accuracy = accuracy
 
     def methodology(self):
         self.methodA()
@@ -281,6 +304,9 @@ class ActivityEval:
         actual_accuracy = pd.DataFrame([self.actual_accuracy]).T
         actual_accuracy = actual_accuracy.rename(columns = {0: 'Actual_Accuracy'})
         print(actual_accuracy)
+        print('best actual accuracy: ', self.best)
+        print('associated confusion matrix: ')
+        print(self.confusion)
         classifiers = ['decision tree','random forest','3 nn','MLP']
         real_method = ['A','B','C','D','E']
         signed_error = {}
@@ -301,6 +327,7 @@ class ActivityEval:
         table['Avg'] = avg_signed_error
         print('signed error:')
         print(table.T)
+
 
             
 
