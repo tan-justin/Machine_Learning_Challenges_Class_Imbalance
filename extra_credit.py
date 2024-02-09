@@ -17,7 +17,7 @@ Parameters: Class Imbalanced Training dataset
 ---------------------------------------------------------------------------------------------------------------------------------
 Type: Function
 Name: balance_dataset
-Purpose: Creates a class balanced dataset by applying oversampling to the original training dataset
+Purpose: Creates a class balanced dataset by applying oversampling to the original training dataset using randomly sampled items
 Parameters: None
 ---------------------------------------------------------------------------------------------------------------------------------
 Type: Function
@@ -47,11 +47,11 @@ class ExtraCredit:
             class_samples = train[train.iloc[:, -1] == class_label]
             num_samples_to_add = max_class_count - class_count[class_label]
             if num_samples_to_add > 0:
-                random_samples = class_samples.sample(n = num_samples_to_add, replace = True)
+                random_samples = class_samples.sample(n = num_samples_to_add, replace = True) #get random samples to add
                 balanced = pd.concat([balanced, random_samples])
             balanced = pd.concat([balanced, class_samples])
         object_columns = balanced.select_dtypes(include = ['object']).columns
-        balanced[object_columns] = balanced[object_columns].astype('int64')
+        balanced[object_columns] = balanced[object_columns].astype('int64') #required because concatenation converts int64 to object
         shuffled = balanced.sample(frac = 1).reset_index(drop = True)
         return shuffled
     
@@ -71,6 +71,6 @@ class ExtraCredit:
             undersampled_samples = class_samples.sample(n = min_class_count, replace = False)
             balanced = pd.concat([balanced, undersampled_samples])
         object_columns = balanced.select_dtypes(include = ['object']).columns
-        balanced[object_columns] = balanced[object_columns].astype('int64')
+        balanced[object_columns] = balanced[object_columns].astype('int64') #required because concatenation converts int64 to object
         shuffled = balanced.sample(frac = 1).reset_index(drop = True)
         return shuffled

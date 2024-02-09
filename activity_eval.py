@@ -100,7 +100,7 @@ class ActivityEval:
         y_label = data.copy().iloc[:,-1]
         x_label = data.copy().iloc[:,:-1]
         self.person_label = None
-        if 'person' in data:
+        if 'person' in data: #remove the person column and place it separately so we can use it for grouping later
             person = data.copy()['person']
             self.person_label = person
             x_label.drop(columns = ['person'])
@@ -109,7 +109,7 @@ class ActivityEval:
         y_test = test.copy().iloc[:,-1]
         x_test = test.copy().iloc[:,:-1]
         self.person_test = None
-        if 'person' in test:
+        if 'person' in test: #remove the person column and place it separately so we can use it for grouping later
             person = test.copy()['person']
             self.person_test = person
             x_test.drop(columns = ['person'])
