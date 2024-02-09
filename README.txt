@@ -1,3 +1,7 @@
+Name: Justin Tan
+Feb 10 2024
+Assignment 2 
+
 Instructions to run the code: 
 
 1. Ensure you have downloaded the necessary packages. 
