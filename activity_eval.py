@@ -77,6 +77,23 @@ Output: 3 tables (train-test method accuracies, actual accuracy, signed error) a
         the highest accuracy
 '''
 
+'''
+Classifier Type: Decision Tree
+Parameters: random_state = 0
+---------------------------------------------------------------------------------------------------------------------------------
+Classifier Type: Random Forest
+Parameters: random_state = 0
+---------------------------------------------------------------------------------------------------------------------------------
+Classifier Type: K nearest neighbors
+Parameters: n_neighbors = 3
+---------------------------------------------------------------------------------------------------------------------------------
+Classifier Type: MLP 
+Parameters: hidden_layer_sizes=(100, ), max_iter=1000, random_state = 0
+---------------------------------------------------------------------------------------------------------------------------------
+Classifier Type: Dummy
+Parameters: strategy = stratified
+'''
+
 class ActivityEval:
 
     def __init__(self, data, test):
@@ -127,7 +144,7 @@ class ActivityEval:
         y_pred_kn = k_neighbors.predict(x_test)
         k_neighbors_accuracy = accuracy_score(y_test, y_pred_kn)
 
-        mlp = MLPClassifier(hidden_layer_sizes=(100, ), max_iter=1000, random_state = 0)
+        mlp = MLPClassifier(hidden_layer_sizes = (100, ), max_iter = 1000, random_state = 0)
         mlp.fit(x_train, y_train)
         y_pred_mlp = mlp.predict(x_test)
         mlp_accuracy = accuracy_score(y_test, y_pred_mlp)
@@ -170,7 +187,7 @@ class ActivityEval:
                     y_pred_kn = k_neighbors.predict(x_test)
                     avg_accuracy[classifier] += accuracy_score(y_test, y_pred_kn)
                 if classifier == 'MLP':
-                    mlp = MLPClassifier(hidden_layer_sizes=(100, ), max_iter=1000, random_state = 0)
+                    mlp = MLPClassifier(hidden_layer_sizes = (100, ), max_iter = 1000, random_state = 0)
                     mlp.fit(x_train, y_train)
                     y_pred_mlp = mlp.predict(x_test)
                     avg_accuracy[classifier] += accuracy_score(y_test, y_pred_mlp)
@@ -208,7 +225,7 @@ class ActivityEval:
                     y_pred_kn = k_neighbors.predict(x_test)
                     avg_accuracy[classifier] += accuracy_score(y_test, y_pred_kn)
                 if classifier == 'MLP':
-                    mlp = MLPClassifier(hidden_layer_sizes=(100, ), max_iter=1000, random_state = 0)
+                    mlp = MLPClassifier(hidden_layer_sizes = (100, ), max_iter = 1000, random_state = 0)
                     mlp.fit(x_train, y_train)
                     y_pred_mlp = mlp.predict(x_test)
                     avg_accuracy[classifier] += accuracy_score(y_test, y_pred_mlp)
@@ -246,7 +263,7 @@ class ActivityEval:
                     y_pred_kn = k_neighbors.predict(x_test)
                     avg_accuracy[classifier] += accuracy_score(y_test, y_pred_kn)
                 if classifier == 'MLP':
-                    mlp = MLPClassifier(hidden_layer_sizes=(100, ), max_iter=1000, random_state = 0)
+                    mlp = MLPClassifier(hidden_layer_sizes = (100, ), max_iter = 1000, random_state = 0)
                     mlp.fit(x_train, y_train)
                     y_pred_mlp = mlp.predict(x_test)
                     avg_accuracy[classifier] += accuracy_score(y_test, y_pred_mlp)
@@ -284,7 +301,7 @@ class ActivityEval:
                     y_pred_kn = k_neighbors.predict(x_test)
                     avg_accuracy[classifier] += accuracy_score(y_test, y_pred_kn)
                 if classifier == 'MLP':
-                    mlp = MLPClassifier(hidden_layer_sizes=(100, ), max_iter=1000, random_state = 0)
+                    mlp = MLPClassifier(hidden_layer_sizes = (100, ), max_iter = 1000, random_state = 0)
                     mlp.fit(x_train, y_train)
                     y_pred_mlp = mlp.predict(x_test)
                     avg_accuracy[classifier] += accuracy_score(y_test, y_pred_mlp)
@@ -323,7 +340,7 @@ class ActivityEval:
                 y_pred_kn = k_neighbors.predict(x_test)
                 accuracy[classifier] += accuracy_score(y_test, y_pred_kn)
             if classifier == 'MLP':
-                mlp = MLPClassifier(hidden_layer_sizes=(100, ), max_iter=1000, random_state = 0)
+                mlp = MLPClassifier(hidden_layer_sizes = (100, ), max_iter = 1000, random_state = 0)
                 mlp.fit(x_train, y_train)
                 y_pred_mlp = mlp.predict(x_test)
                 accuracy[classifier] += accuracy_score(y_test, y_pred_mlp)
