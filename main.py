@@ -8,6 +8,7 @@ File: main.py
 import pandas as pd
 from generate_profile import GenerateProfile
 from activity_eval import ActivityEval
+from extra_credit import ExtraCredit
 
 '''
 Type: Function
@@ -36,6 +37,27 @@ def main():
 
     train_test_instance = ActivityEval(train_data, test_data)
     train_test_instance.methodology()
+
+    print('Extra Credit starts here')
+    print('Oversampling: ')
+    extra_credit_gen_instance = ExtraCredit(train_data)
+    balanced = extra_credit_gen_instance.balance_dataset()
+    is_balanced, class_counts = extra_credit_gen_instance.check_class_balance(balanced)
+    if is_balanced:
+        print("dataset is class-balanced.")
+    else:
+        print("dataset is not class-balanced.")
+    extra_credit_instance = ActivityEval(balanced, test_data)
+    extra_credit_instance.methodology()
+    print('Undersampling: ')
+    undersampled = extra_credit_gen_instance.undersample()
+    under_balanced, class_under = extra_credit_gen_instance.check_class_balance(undersampled)
+    if under_balanced:
+        print("dataset is class-balanced")
+    else:
+        print("dataset is not class-balanced")
+    under_instance = ActivityEval(undersampled, test_data)
+    under_instance.methodology()
 
 if __name__ =="__main__":
     main()
