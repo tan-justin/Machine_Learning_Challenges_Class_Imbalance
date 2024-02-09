@@ -1,7 +1,36 @@
-import random
+'''
+Name: Justin Tan
+Assignment: Give your models a grade
+Date: Feb 10 2024
+File: activity_eval.py
+'''
+
 import pandas as pd
 import numpy as np
 from collections import Counter
+
+'''
+Type: Class
+Name: ExtraCredit
+Purpose: Contain the methods required to solve the extra credit question
+Parameters: Class Imbalanced Training dataset
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: balance_dataset
+Purpose: Creates a class balanced dataset by applying oversampling to the original training dataset
+Parameters: None
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: check_class_balance
+Purpose: Verifies that the new dataset created is class-balanced
+Parameters: dataframe of the new dataset
+---------------------------------------------------------------------------------------------------------------------------------
+Type: Function
+Name: undersample
+Purpose: Creates a class balanced dataset by applying undersampling to the original training dataset. The intention is to determine
+         if the negative signed difference for the MLP classifier is due to the nature of oversampling or a coincidence
+Parameters: None
+'''
 
 class ExtraCredit:
 
@@ -41,7 +70,6 @@ class ExtraCredit:
             class_samples = train[train.iloc[:,-1] == class_label]
             undersampled_samples = class_samples.sample(n = min_class_count, replace = False)
             balanced = pd.concat([balanced, undersampled_samples])
-        print(balanced.dtypes)
         object_columns = balanced.select_dtypes(include = ['object']).columns
         balanced[object_columns] = balanced[object_columns].astype('int64')
         shuffled = balanced.sample(frac = 1).reset_index(drop = True)

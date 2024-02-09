@@ -42,6 +42,7 @@ def main():
     print('Oversampling: ')
     extra_credit_gen_instance = ExtraCredit(train_data)
     balanced = extra_credit_gen_instance.balance_dataset()
+    balanced.to_csv('oversampled_dataset.csv', index = False)
     is_balanced, class_counts = extra_credit_gen_instance.check_class_balance(balanced)
     if is_balanced:
         print("dataset is class-balanced.")
@@ -56,6 +57,7 @@ def main():
         print("dataset is class-balanced")
     else:
         print("dataset is not class-balanced")
+    undersampled.to_csv('undersampled_dataset.csv', index = False)
     under_instance = ActivityEval(undersampled, test_data)
     under_instance.methodology()
 
