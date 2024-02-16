@@ -112,7 +112,7 @@ class GenerateProfile:
                 pdf.showPage()
 
         finally:
-            pie_path = os.path.join('Pie chart',f'{self.data.copy().columns.tolist().pop(-1)}_pie_chart.png')
+            pie_path = os.path.join('pie chart',f'{self.data.copy().columns.tolist().pop(-1)}_pie_chart.png')
             pdf.drawInlineImage(pie_path, 10, 200, width = 480, height = 360)
             pdf.showPage()
             pdf.save()
